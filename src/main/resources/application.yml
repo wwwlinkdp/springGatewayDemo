@@ -1,0 +1,58 @@
+server:
+  port: 8096
+  ssl:
+    enabled: false
+
+  tomcat:
+    connection-timeout: 10000
+#?????
+logging:
+  level:
+    reactor:
+      netty: TRACE
+    org:
+      springframework:
+        cloud:
+          gateway: TRACE
+spring:
+  cloud:
+    gateway:
+      httpclient:
+        ssl:
+          useInsecureTrustManager: true
+        pool:
+          max-idle-time: 10000
+      routes:
+        #????
+        - id: google22
+          uri: https://www.cnblogs.com
+          predicates:
+            - Path=/drive
+        - id: google
+          uri: https://google.com
+          predicates:
+            - Path=/google/{param}
+          filters:
+            - RewritePath=/google(?<segment>/?.*),/search
+            - AddRequestParameter=q,{param}
+        - id: path_route
+          uri: https://webhook.site
+          predicates:
+            - Method=GET,POST
+            - Path=/echo/**
+          filters:
+            - StripPrefix=1
+            - Custom=a,b,c,d,e
+# http://10.170.200.218:8096/echo/a238e6c5-c3e5-4060-a667-61eef751b473
+
+        - id: path_route2
+          uri: http://10.170.129.13:83
+          predicates:
+            - Method=GET,POST
+            - Path=/soap/**
+          filters:
+            - StripPrefix=1
+            - Custom=a,b,c,d,e
+
+#      default-filters:
+#        - Default=a1,b1,c1,d1,e1
