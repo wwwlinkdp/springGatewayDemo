@@ -1,5 +1,8 @@
 package com.savills.apigateway;
 
+import com.savills.apigateway.helper.AdvLog;
+import com.savills.apigateway.helper.BaseLog;
+import com.savills.apigateway.helper.LoggerThread;
 import io.netty.buffer.ByteBufAllocator;
 import io.netty.handler.ssl.ApplicationProtocolNegotiator;
 import io.netty.handler.ssl.SslContext;
@@ -22,8 +25,11 @@ public class ApiGatewayApplication {
 
     public static void main(String[] args) {
 
-
-
+        for (int i = 0; i < 1000000; i++) {
+            AdvLog item = new AdvLog();
+            item.setMsg(i+"-"+ System.currentTimeMillis());
+            LoggerThread.getInstance().log(item);
+        }
 
 
         SpringApplication.run(ApiGatewayApplication.class, args);
