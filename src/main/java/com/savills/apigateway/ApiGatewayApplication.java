@@ -8,6 +8,7 @@ import io.netty.handler.ssl.ApplicationProtocolNegotiator;
 import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
 import io.netty.handler.ssl.SslProvider;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.gateway.route.RouteLocator;
@@ -21,16 +22,10 @@ import java.net.http.HttpClient;
 import java.util.List;
 
 @SpringBootApplication
+@MapperScan("com.savills.apigateway.generator.mapper")
 public class ApiGatewayApplication {
 
     public static void main(String[] args) {
-
-        for (int i = 0; i < 1000000; i++) {
-            AdvLog item = new AdvLog();
-            item.setMsg(i+"-"+ System.currentTimeMillis());
-            LoggerThread.getInstance().log(item);
-        }
-
 
         SpringApplication.run(ApiGatewayApplication.class, args);
     }
